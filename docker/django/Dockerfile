@@ -53,11 +53,11 @@ RUN apt-get update && apt-get upgrade -y \
   # Get architecture to download appropriate tini release:
   # See https://github.com/wemake-services/wemake-django-template/issues/1725
   && dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
-  && curl -o /usr/local/bin/tini -sSLO "https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-${dpkgArch}" \
+  && curl --insecure -o /usr/local/bin/tini -sSLO "https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-${dpkgArch}" \
   && chmod +x /usr/local/bin/tini && tini --version \
   # Installing `poetry` package manager:
   # https://github.com/python-poetry/poetry
-  && curl -sSL 'https://install.python-poetry.org' | python - \
+  && curl --insecure -sSL 'https://install.python-poetry.org' | python - \
   && poetry --version \
   # Cleaning cache:
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \

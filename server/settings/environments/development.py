@@ -39,6 +39,7 @@ ALLOWED_HOSTS = [
 # Installed apps for development only:
 
 INSTALLED_APPS += (
+    "drf_spectacular_sidecar",
     # Better debug:
     'debug_toolbar',
     'nplusone.ext.django',
@@ -94,9 +95,18 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # This will make debug toolbar to work with django-csp,
 # since `ddt` loads some scripts from `ajax.googleapis.com`:
-CSP_SCRIPT_SRC += ('ajax.googleapis.com',)
-CSP_IMG_SRC += ('data:',)
+CSP_SCRIPT_SRC += ("ajax.googleapis.com", "'unsafe-inline'")
+CSP_IMG_SRC += ("data:", "cdn.jsdelivr.net", "cdn.redoc.ly")
 CSP_CONNECT_SRC += ("'self'",)
+
+# Option: CDN
+CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "cdn.jsdelivr.net")
+
+# required for both CDN and SIDECAR
+CSP_WORKER_SRC = ("'self'", "blob:")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "fonts.googleapis.com")
+CSP_FONT_SRC = ("'self'", "fonts.gstatic.com")
+
 
 
 # nplusone
@@ -157,3 +167,12 @@ EXTRA_CHECKS = {
 # Disable persistent DB connections
 # https://docs.djangoproject.com/en/4.2/ref/databases/#caveats
 DATABASES['default']['CONN_MAX_AGE'] = 0
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Django Playground",
+    "DESCRIPTION": "Django Playground",
+    "VERSION": "1.0.0",
+    "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
+    # OTHER SETTINGS
+}

@@ -14,6 +14,11 @@ from django.contrib import admin
 from django.contrib.admindocs import urls as admindocs_urls
 from django.urls import include, path
 from django.views.generic import TemplateView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 from health_check import urls as health_urls
 
 from server.apps.main import urls as main_urls
@@ -23,6 +28,17 @@ admin.autodiscover()
 
 urlpatterns = [
     # Apps:
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
     path('main/', include(main_urls, namespace='main')),
 
     # Health checks:

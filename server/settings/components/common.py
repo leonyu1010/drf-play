@@ -23,6 +23,8 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 INSTALLED_APPS: Tuple[str, ...] = (
     # Your apps go here:
+    "rest_framework",
+    "drf_spectacular",
     'server.apps.main',
 
     # Default django apps:
@@ -48,6 +50,13 @@ INSTALLED_APPS: Tuple[str, ...] = (
     'health_check.storage',
 )
 
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
 MIDDLEWARE: Tuple[str, ...] = (
     # Logging:
     'server.settings.components.logging.LoggingContextVarsMiddleware',
