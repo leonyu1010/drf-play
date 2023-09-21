@@ -27,6 +27,7 @@ python-decouple = "^3.8"
 structlog = "^23.1"
 djangorestframework = "^3.14.0"
 drf-spectacular = "^0.26.4"
+tox = "^4.11.3"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -63,6 +64,7 @@ polint = "^0.4"
 dennis = "^1.1"
 dump-env = "^1.3"
 ipython = "^8.15"
+pre-commit = "^3.4.0"
 drf-spectacular-sidecar = "^2023.9.1"
 
 [tool.poetry.group.docs]
@@ -91,3 +93,69 @@ format_attribute_template_tags = true
 
 [tool.nitpick]
 style = "https://raw.githubusercontent.com/wemake-services/wemake-python-styleguide/0.18.0/styles/nitpick-style-wemake.toml"
+
+[tool.black]
+line-length = 79
+[tool.ruff]
+ignore = [
+    "ANN101",  # Missing type annotation for `self` in method
+    "ANN102",  # Missing type annotation for `cls` in classmethod
+    "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed in `args`
+    "ARG001",  # Unused function argument
+    "ARG002",  # Unused method argument
+    "ARG005",  # Unused lambda argument: `args`
+    "COM812",  # Buggy: https://github.com/charliermarsh/ruff/issues/4480
+    "D100",    # Missing docstring in public module
+    "D101",    # Missing docstring in public class
+    "D102",    # Missing docstring in public method
+    "D103",    # Missing docstring in public function
+    "D104",    # Missing docstring in public package
+    "D105",    # Missing docstring in magic method
+    "D106",    # Missing docstring in public nested class
+    "D202",    # No blank lines allowed after function docstring
+    "D205",    # 1 blank line required between summary line and description
+    "D400",    # First line should end with a period
+    "D401",    # First line should be in imperative mood
+    "D404",    # First word of the docstring should not be "This"
+    "D414",    # Section has no content ("Parameters"/"Returns")
+    "EXE002",  # Executable file missing shebang
+    "E501",    # long line -> defer to black
+    "S101",    # Use of `assert` detected
+    "S602",    # S602-S607: Ban usage of subprocess module due to risk of shell
+    "S603",    # injection. We can ignore because we do not accept untrusted
+    "S604",    # user input.
+    "S605",
+    "S606",
+    "S607",
+    "SIM112",  # Use capitalized environment variable
+    "TCH002",  # Move third-party import into a type-checking block
+    "TCH003",  # Move standard library import `threading` into a type-checking block
+]
+exclude = [
+    ".tox",
+    ".pytest_cache",
+    # Contains directories with .py extension which cause ruff errors
+]
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+[tool.ruff.pydocstyle]
+convention = "numpy"
+[tool.ruff.isort]
+combine-as-imports = true
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = true
+ignore-semiprivate = true
+ignore-private = true
+ignore-property-decorators = true
+ignore-module = true
+ignore-nested-functions = true
+fail-under = 0
+exclude = ["setup.py", "docs", "build", "tests"]
+ignore-regex = ["^get_tests$", "^select_args$"]
+verbose = 1
+quiet = false
+whitelist-regex = []
+color = true

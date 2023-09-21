@@ -1,0 +1,86 @@
+---
+mode: ContinuousDelivery
+tag-prefix: '[vV]'
+continuous-delivery-fallback-tag: ci
+commit-message-incrementing: Disabled
+branches:
+  develop:
+    mode: ContinuousDeployment
+    tag: a
+    increment: Minor
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: true
+    regex: ^(origin\/)?develop$
+    source-branches: []
+    tracks-release-branches: true
+    is-release-branch: false
+    is-mainline: false
+  master:
+    mode: ContinuousDelivery
+    tag: ''
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    regex: ^(origin\/)?master$
+    source-branches:
+      - develop
+      - release
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: true
+  release:
+    mode: ContinuousDeployment
+    tag: b
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    regex: ^(origin\/)?release/
+    source-branches:
+      - develop
+    tracks-release-branches: false
+    is-release-branch: true
+    is-mainline: false
+  feature:
+    mode: ContinuousDelivery
+    tag: useBranchName
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    regex: ^(origin\/)?feature/
+    source-branches:
+      - develop
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: false
+  pull-request:
+    mode: ContinuousDelivery
+    tag: PullRequest
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: false
+    tag-number-pattern: '[/-](?<number>\d+)'
+    track-merge-target: false
+    regex: ^(origin\/)?(pull|pull\-requests|pr)[/-]
+    source-branches:
+      - develop
+      - master
+      - release
+      - feature
+      - hotfix
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: false
+  hotfix:
+    mode: ContinuousDeployment
+    tag: b
+    increment: Patch
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    regex: ^(origin\/)?hotfix/
+    source-branches:
+      - master
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: false
+ignore:
+  sha: []
+commit-date-format: yyyy-MM-dd
