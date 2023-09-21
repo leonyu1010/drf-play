@@ -25,6 +25,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     # Your apps go here:
     "rest_framework",
     "drf_spectacular",
+    "server.apps.api.books.apps.BooksConfig",
     'server.apps.main',
 
     # Default django apps:

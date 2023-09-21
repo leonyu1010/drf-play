@@ -22,6 +22,7 @@ from drf_spectacular.views import (
 from health_check import urls as health_urls
 
 from server.apps.main import urls as main_urls
+from server.apps.api.books import urls as books_urls
 from server.apps.main.views import index
 
 admin.autodiscover()
@@ -39,6 +40,7 @@ urlpatterns = [
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),
+    path("api/", include(books_urls, namespace="books")),
     path('main/', include(main_urls, namespace='main')),
 
     # Health checks:
